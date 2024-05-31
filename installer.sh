@@ -1,43 +1,35 @@
 #!/bin/bash
 
-# Create a temporary directory
-temp_dir=$(mktemp -d)
+git clone https://github.com/jtof-dev/posy-cursor-linux.git
 
-# Change to the temporary directory
-cd "$temp_dir"
+cd posy-cursor-linux
 
-git clone https://github.com/JJTofflemire/posy-improved-cursor-linux.git
-
-cd posy-improved-cursor-linux
-
-# Define a list of options
 options=("Posy_Cursor" "Posy_Cursor_125_175" "Posy_Cursor_Black" "Posy_Cursor_Black_125_175" "Posy_Cursor_Mono" "Posy_Cursor_Mono_Black" "Posy_Cursor_Strokeless" "Quit")
 
-# Display the menu
 PS3="Select a cursor to install: "
 select choice in "${options[@]}"; do
   case $REPLY in
     1|2|3|4|5|6|7)
       selected="$choice"
-      echo -e "You selected: $selected"
+      echo -e "you selected: $selected"
       break
       ;;
     8)
-      echo "Quitting the script."
+      echo "quitting the script."
       exit 0
       ;;
     *)
-      echo "Invalid option. Please select a valid option."
+      echo "invalid option. please select a valid option."
       ;;
   esac
 done
 
-sudo cp -r "$selected/cursors" /usr/share/icons/Adwaita
+sudo cp -fr "$selected/cursors" /usr/share/icons/Adwaita
 
 sudo cp "$selected/index.theme" /usr/share/icons/Adwaita
 
-echo "Copied 'cursors' folder and 'index.theme' from $selected to '/usr/share/Adwaita'"
+echo "copied 'cursors' folder and 'index.theme' from $selected to '/usr/share/Adwaita'"
 
-cd ../..
+cd ..
 
-rm -rf "$temp_dir"
+sudo rm -r posy-cursor-linux
